@@ -37,7 +37,6 @@ export function TestChart({set_chart}) {
                 border: "1px solid black",
                 margin: "10px",
                 width: 600,
-                justifySelf: "center",
             }}
             ref={(cmp)=>(set_chart(cmp))}
         >

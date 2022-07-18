@@ -1,31 +1,24 @@
 import './App.css';
-import { TestChart } from './components/Chart';
-import { exportVisual } from '@progress/kendo-react-charts';
+import Report from './components/Report'
 import '@progress/kendo-theme-default/dist/all.css';
-import { exportPDF } from "@progress/kendo-drawing";
-import { saveAs } from "@progress/kendo-file-saver";
-import { Button } from '@mui/material';
-import { useState } from 'react';
+import {Grid, Container, Button, Typography } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
+
 
 function App() {
-  const [_chart,set_chart] = useState("")
-  
-  function onPDFExportClick() {
-    const chartVisual = exportVisual(_chart);
-
-    if (chartVisual) {
-      exportPDF(chartVisual, {
-        paperSize: "A4",
-        landscape: true,
-      }).then((dataURI) => saveAs(dataURI, "chart.pdf"));
-    }
-  };
   return (
-    <div style={{ display: 'flex' }}>
-      <h1>test react chart</h1>
-      <TestChart set_chart={set_chart} />
-      <Button variant="outlined" onClick={onPDFExportClick}>Print PDF</Button>
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <Grid container justifyContent="center" sx={{margin:"10px"}}>
+      <Report />
+      </Grid>
+    </ThemeProvider>
   );
 }
 
