@@ -11,6 +11,7 @@
     "@progress/kendo-file-saver": "^1.1.1",
     "@progress/kendo-licensing": "^1.2.2",
     "@progress/kendo-react-charts": "^5.5.0",
+    "@progress/kendo-react-pdf": "^5.5.0",
     "@progress/kendo-theme-default": "^5.5.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",

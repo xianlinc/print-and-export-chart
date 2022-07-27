@@ -3,10 +3,8 @@ import ReactToPrint, { PrintContextConsumer } from "react-to-print";
 import PrintIcon from "@mui/icons-material/Print";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import BarChartIcon from '@mui/icons-material/BarChart';
-import { exportVisual } from "@progress/kendo-react-charts";
 import "@progress/kendo-theme-default/dist/all.css";
-import { exportPDF } from "@progress/kendo-drawing";
-import { saveAs } from "@progress/kendo-file-saver";
+import { savePDF } from "@progress/kendo-react-pdf";
 import {
   Box,
   FormControl,
@@ -17,26 +15,24 @@ import {
   Button,
 } from "@mui/material";
 import {useRef, useState } from "react";
-import './Report.css'
+
 export default function Report() {
   const [_chart, set_chart] = useState("");
-  const generateReportGreen = "#66BB6B";
   const printReportBlue = "#29B6F7";
-  const dropDownLabelGrey = "#AFBDD1";
   const backgroundBlue = "#2B3648";
   const ref = useRef()
 
+    // Uses savePDF from kendoreact
   function onPDFExportClick() {
-    const chartVisual = exportVisual(_chart);
-
-    if (chartVisual) {
-      exportPDF(chartVisual, {
-        paperSize: "auto",
-        landscape: true,
-      }).then((dataURI) => saveAs(dataURI, "chart.pdf"));
-    }
+    let element = ref.current || document.body;
+    savePDF(element, {
+      paperSize: "auto",
+      margin: 40,
+      fileName: `Report for ${new Date().getFullYear()}`,
+    });
   }
-
+    
+    // exports the component rendered at ref
   function ExportPDFBtn() {
     return (
       <Button
@@ -50,6 +46,8 @@ export default function Report() {
     );
   }
 
+    // prints the component rendered at ref
+    // Uses react to print package
   function PrintChartBtn () {
     return (
         <ReactToPrint content={() => ref.current}>
@@ -72,17 +70,7 @@ export default function Report() {
   return (
     <Container fixed sx={{ backgroundColor: backgroundBlue, padding: 3 }}>
       <Box display="flex" justifyContent="space-around">
-        <DropDown title="Standard Reports" />
-        <DropDown title="Duration" />
-        <DropDown title="From" />
-        <DropDown title="To" />
-        <Button
-          variant="contained"
-          startIcon={<BarChartIcon />}
-          sx={{ color: "black", backgroundColor: generateReportGreen }}
-        >
-          Generate Report
-        </Button>
+        <GenerateReportForm />
         <PrintChartBtn />
         <ExportPDFBtn />
       </Box>
@@ -146,6 +134,9 @@ export default function Report() {
     </Container>
   );
 }
+
+// Selecting report using dropdown not implemented 
+// This is placeholder UI element
 function DropDown({ title }) {
   return (
     <FormControl sx={{ minWidth: 120 }} variant="filled" size="small">
@@ -161,5 +152,24 @@ function DropDown({ title }) {
         <MenuItem value={30}>Thirty</MenuItem>
       </Select>
     </FormControl>
+  );
+}
+
+function GenerateReportForm() {
+  const generateReportGreen = "#66BB6B";
+  return (
+    <>
+      <DropDown title="Standard Reports" />
+      <DropDown title="Duration" />
+      <DropDown title="From" />
+      <DropDown title="To" />
+      <Button
+        variant="contained"
+        startIcon={<BarChartIcon />}
+        sx={{ color: "black", backgroundColor: generateReportGreen }}
+      >
+        Generate Report
+      </Button>
+    </>
   );
 }

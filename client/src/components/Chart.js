@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+
 import {
     Chart,
     ChartSeries,
@@ -10,6 +10,8 @@ import {
     ChartLegend,
 } from "@progress/kendo-react-charts";
 import "hammerjs";
+
+// DATA
 const categories = [2002, 2003, 2004];
 const series = [
     {
@@ -29,6 +31,7 @@ const series = [
         data: [1.988, 2.733, 3.994],
     },
 ];
+
 export function TestChart({set_chart}) {
     return (
         <Chart
@@ -40,7 +43,7 @@ export function TestChart({set_chart}) {
             }}
             ref={(cmp)=>(set_chart(cmp))}
         >
-            <ChartTitle text="Column Chart" />
+            <ChartTitle text="CHART TITLE" />
             <ChartLegend position="top" orientation="horizontal" />
             <ChartCategoryAxis>
                 <ChartCategoryAxisItem categories={categories} startAngle={45} />
